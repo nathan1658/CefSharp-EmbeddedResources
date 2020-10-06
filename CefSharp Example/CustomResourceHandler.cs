@@ -13,8 +13,8 @@ namespace CefSharp_Example
     public class CustomResourceHandler : ResourceHandler
     {
 
-        private  const string PREFIX= "CefSharp_Example.Test1.";
-        public CustomResourceHandler(string initial = "index2.html")
+        private  const string PREFIX= "CefSharp_Example.Web.";
+        public CustomResourceHandler(string initial = "index.html")
         {
             StatusCode = 200;
             StatusText = "OK";
@@ -42,7 +42,12 @@ namespace CefSharp_Example
                 Stream = readFromStream(fileName);
                 var tmp = readFromStream(fileName);
                 if (tmp != null)
+                {
                     Stream = tmp;
+                    var fileExtension = Path.GetExtension(fileName);
+                    MimeType = GetMimeType(fileExtension);
+                }
+                callback.Continue();
             }
             return CefReturnValue.Continue;
         }
